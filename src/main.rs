@@ -22,6 +22,8 @@ struct Args {
     check_examples: Option<bool>,
 }
 
+const CHRISTMAS: u8 = 25;
+
 fn main() {
     let args = Args::parse();
     let to_console = args.console.unwrap_or_default();
@@ -36,7 +38,7 @@ fn main() {
     match args.day {
         Some(day) => solve_day(day, to_console, input_folder),
         None => {
-            for day in 1..=2 {
+            for day in 1..=CHRISTMAS {
                 solve_day(day, to_console, input_folder);
             }
         }
@@ -52,7 +54,12 @@ macro_rules! use_day {
 }
 
 fn solve_day(day: u8, to_console: bool, input_type: InputType) {
-    let (part1, part2) = funcs_for_days(day);
+    let (part1, part2) = match funcs_for_days(day) {
+        None => {
+            return;
+        }
+        Some(funcs) => funcs,
+    };
     let file_content = read_file(input_type, day);
     let input = io::parse_lines(file_content.as_str());
     let mut start = Instant::now();
@@ -69,11 +76,11 @@ fn solve_day(day: u8, to_console: bool, input_type: InputType) {
     }
 }
 
-fn funcs_for_days(day: u8) -> (fn(Vec<String>) -> Solution, fn(Vec<String>) -> Solution) {
+fn funcs_for_days(day: u8) -> Option<(fn(Vec<String>) -> Solution, fn(Vec<String>) -> Solution)> {
     match day {
-        1 => use_day!(day01),
-        2 => use_day!(day02),
-        3 => use_day!(day03),
-        _ => panic!("day not implemented"),
+        1 => Some(use_day!(day01)),
+        2 => Some(use_day!(day02)),
+        3 => Some(use_day!(day03)),
+        _ => None,
     }
 }
