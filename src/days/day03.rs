@@ -47,27 +47,24 @@ fn get_invalid_type(rucksack: String) -> Option<char> {
 fn get_badge_type(rucksacks: &[String]) -> Option<char> {
     //number of times each item is found in the elves bags: no-repeats
     let mut counts_for_type: HashMap<char, u8> = HashMap::new();
+    let mut mask: u8 = 1;
     for sack in rucksacks.iter() {
-        //set to track if each item has been already added to the count map
-        let mut items_in_bag = HashSet::new();
         for item in sack.chars().into_iter() {
-            if !items_in_bag.contains(&item) {
-                items_in_bag.insert(item); //add item to local bag set to avoid counting more than once
-                match counts_for_type.get(&item) {
-                    //first time item has shown up for all three elves
-                    None => {
-                        counts_for_type.insert(item, 1);
+            match counts_for_type.get(&item) {
+                //first time item has shown up for all three elves
+                None => {
+                    counts_for_type.insert(item, mask);
+                }
+                //item has been found in another elve's bag
+                Some(count) => {
+                    if *count | mask == 7 {
+                        return Some(item); //item has been found twice, meaning this item if their badge type
                     }
-                    //item has been found in another elve's bag
-                    Some(count) => {
-                        if *count == 2 {
-                            return Some(item); //item has been found twice, meaning this item if their badge type
-                        }
-                        counts_for_type.insert(item, 2); //only possiblity is that the count is 1
-                    }
+                    counts_for_type.insert(item, count | mask); //only possiblity is that the count is 1
                 }
             }
         }
+        mask <<= 1;
     }
     None
 }
