@@ -84,9 +84,9 @@ pub fn write_result(results: Vec<Solution>, day: u8, input_type: InputType) {
     write!(file, "{}", formatted_results).expect("To be able to write results");
 }
 
-pub fn print_result<T: Display>(result: T, duration: Duration) {
+pub fn print_result<T: Display>(day: u8, part: u8, result: T, duration: Duration) {
     println!(
-        "{} {}(elapsed: {:.2?}){}",
-        result, ANSI_ITALIC, duration, ANSI_RESET
+        "day {}, part {}: {} {}(elapsed: {:.2?}){}",
+        day, part, result, ANSI_ITALIC, duration, ANSI_RESET
     );
 }

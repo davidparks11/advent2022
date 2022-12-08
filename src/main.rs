@@ -69,8 +69,8 @@ fn solve_day(day: u8, to_console: bool, input_type: InputType) {
     let result2 = part2(input.clone());
     let duration2 = start.elapsed();
     if to_console {
-        print_result(result1, duration1);
-        print_result(result2, duration2);
+        print_result(day, 1, result1, duration1);
+        print_result(day, 2, result2, duration2);
     } else {
         write_result(vec![result1, result2], day, input_type)
     }
@@ -81,6 +81,7 @@ fn funcs_for_days(day: u8) -> Option<(fn(Vec<String>) -> Solution, fn(Vec<String
         1 => Some(use_day!(day01)),
         2 => Some(use_day!(day02)),
         3 => Some(use_day!(day03)),
+        4 => Some(use_day!(day04)),
         _ => None,
     }
 }
