@@ -82,6 +82,7 @@ fn funcs_for_days(day: u8) -> Option<(fn(Vec<String>) -> Solution, fn(Vec<String
         2 => Some(use_day!(day02)),
         3 => Some(use_day!(day03)),
         4 => Some(use_day!(day04)),
+        5 => Some(use_day!(day05)),
         _ => None,
     }
 }
