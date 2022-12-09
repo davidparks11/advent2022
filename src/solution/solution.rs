@@ -9,6 +9,7 @@ pub enum Solution {
     U64(u64),
     U128(u128),
     Str(String),
+    Usize(usize),
 }
 
 impl Display for Solution {
@@ -21,6 +22,7 @@ impl Display for Solution {
             U64(x) => x.fmt(f),
             U128(x) => x.fmt(f),
             Str(x) => x.fmt(f),
+            Usize(x) => x.fmt(f),
         }
     }
 }
@@ -70,5 +72,11 @@ impl From<String> for Solution {
 impl From<&str> for Solution {
     fn from(sol: &str) -> Self {
         Self::Str(sol.to_owned())
+    }
+}
+
+impl From<&usize> for Solution {
+    fn from(sol: &usize) -> Self {
+        Self::Usize(sol.to_owned())
     }
 }
